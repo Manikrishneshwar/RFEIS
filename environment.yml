@@ -1,0 +1,10 @@
+name: rfeis_env
+channels:
+  - default
+
+dependencies:
+  - pip:
+      - kafka
+      - beautifulsoup4
+      - requests
+      - lxml
