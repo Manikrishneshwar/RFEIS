@@ -1,8 +1,35 @@
 import json
+import redis
+import hashlib
 from kafka import KafkaConsumer
 
 KAFKA_TOPIC="Financial_news"
 KAFKA_BROKER="localhost:9092"
+
+#redis con
+r = redis.Redis(host='localhost', port=6379, db=0)
+
+def get_news_id(news_item):
+    """Generate a unique ID for a news item"""
+    text = news_item.get('title', '') + news_item.get('link', '')
+    return hashlib.sha256(text.encode()).hexdigest()
+
+def is_duplicate(news_item):
+    news_id = get_news_id(news_item)
+    if r.get(news_id):
+        return True  #already processed
+    #key expiry in 24 hrs
+    r.set(news_id, 1, ex=86400)
+    return False
+
+def process_event(event):
+    """
+    Placeholder for downstream logic:
+    - normalization
+    - LLM inference
+    - signal generation
+    """
+    print("Processing:", event.get("title"))
 
 consumer=KafkaConsumer(
     KAFKA_TOPIC,
@@ -14,33 +41,12 @@ consumer=KafkaConsumer(
     group_id="rfeis-event-consumers"
 )
 
-processed_event_ids = set()
-
-
-def process_event(event):
-    """
-    Placeholder for downstream logic:
-    - normalization
-    - LLM inference
-    - signal generation
-    """
-    print("Processing:", event["title"])
-
 for msg in consumer:
-    event_id = msg.key
     event = msg.value
-    if event_id in processed_event_ids:
-        print("Duplicate event skipped:", event_id)
+    if is_duplicate(event):
+        print("Duplicate skipped")
         consumer.commit()
         continue
 
-    try:
-        process_event(event)
-        processed_event_ids.add(event_id)
-
-        # Commit only after successful processing
-        consumer.commit()
-
-    except Exception as e:
-        print("Processing failed:", e)
-        # No commit → Kafka will retry
+    process_event(event)
+    consumer.commit()

@@ -5,7 +5,6 @@ channels:
 dependencies:
   - pip:
       - kafka
-      - beautifulsoup4
-      - requests
+      - redis
       - lxml
       - feedparser
