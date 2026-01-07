@@ -8,3 +8,4 @@ dependencies:
       - beautifulsoup4
       - requests
       - lxml
+      - feedparser
