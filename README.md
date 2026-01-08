@@ -1,5 +1,6 @@
 Real-Time Financial Event Intelligence System
 
+Docker commands to create zookeeper, kafka and redis containers.
 ```
 docker run -d --name zookeeper -p 2181:2181 zookeeper
 
@@ -13,5 +14,14 @@ docker run -d --name redis -p 6379:6379 redis
 
 docker ps 
 ```
+
+docker ps should show that all 3 containers are running.
+
+in 2 separate terminals run the below code for execution
+Producer:
+```python -m producer.producer```
+
+Consumer:
+```python -m consumer.consumer```
 
 Current avg latency: 0.01ms
