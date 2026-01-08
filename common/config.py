@@ -1,8 +1,8 @@
 KAFKA_TOPIC="Financial_news"
 KAFKA_BROKER="localhost:9092"
 
-REDIS_HOST:"localhost"
-REDIS_PORT=6739
+REDIS_HOST="localhost"
+REDIS_PORT=6379
 REDIS_DB=0
 
 DEDUP_TTL_SEC=86400
