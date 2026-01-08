@@ -15,10 +15,19 @@ producer=KafkaProducer(
     retries=2
 )
 
-URL = "https://feeds.marketwatch.com/marketwatch/topstories"
+FEEDS = [
+    # "https://www.bloomberg.com/feed/podcast/etf-report.xml",
+    "https://finance.yahoo.com/news/rssindex",
+    "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+    "https://www.marketwatch.com/rss/topstories",
+    "https://www.investing.com/rss/news_25.rss",
+    # "https://www.ft.com/?edition=international",  # FT may need parsing or API
+    # "https://www.nasdaq.com/feed/rssoutbound?category=News"
+]
 SOURCE_NAME = "MarketWatch"
 
-def scrape_events():
+def scrape_events(URL):
+    
     feed=feedparser.parse(URL)
     events=[]
     for entry in feed.entries[:5]:
@@ -54,13 +63,13 @@ def generate_event_id(text,source):
     return hashlib.sha256(base.encode("utf-8")).hexdigest()
 
 while True:
-
-    events=scrape_events()
-    for event in events:
-        producer.send(KAFKA_TOPIC, key=event["event_id"],value=event)
-        print("Sent event: ",event["event_id"])
-        
-    producer.flush()
-    time.sleep(5)
+    for feed_url in FEEDS:
+        events=scrape_events(feed_url)
+        for event in events:
+            producer.send(KAFKA_TOPIC, key=event["event_id"],value=event)
+            print("Sent event: ",event["event_id"]," from ",feed_url)
+            
+        producer.flush()
+    time.sleep(20)
     
         
