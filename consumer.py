@@ -1,6 +1,7 @@
 import json
 import redis
 import hashlib
+import time
 from kafka import KafkaConsumer
 
 KAFKA_TOPIC="Financial_news"
@@ -43,6 +44,8 @@ consumer=KafkaConsumer(
 
 for msg in consumer:
     event = msg.value
+    latency=time.time()-event["ingested_at"]
+    print(f"Latency: {latency:.3f}s")
     if is_duplicate(event):
         print("Duplicate skipped")
         consumer.commit()

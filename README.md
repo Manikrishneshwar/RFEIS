@@ -13,3 +13,5 @@ docker run -d --name redis -p 6379:6379 redis
 
 docker ps 
 ```
+
+Current avg latency: 0.01ms
