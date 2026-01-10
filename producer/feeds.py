@@ -1,3 +1,5 @@
+import re 
+
 FEEDS = [
     # "https://www.bloomberg.com/feed/podcast/etf-report.xml",
     "https://finance.yahoo.com/news/rssindex",
@@ -8,4 +10,9 @@ FEEDS = [
     # "https://www.nasdaq.com/feed/rssoutbound?category=News"
 ]
 
-SOURCE_NAME = "MarketWatch"
+SOURCE_NAME = {
+    re.compile("https://finance.yahoo.com/.*"):"Yahoo.com",
+    re.compile("https://www.cnbc.com/.*"):"CNBC.com",
+    re.compile("https://www.marketwatch.com/.*"):"MarketWatch.com",
+    re.compile("https://www.investing.com/.*"):"Investing.com"
+}

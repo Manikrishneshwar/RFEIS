@@ -3,6 +3,12 @@ import feedparser
 from producer.utils import generate_event_id
 from producer.feeds import SOURCE_NAME
 
+def get_source(url):
+    for pattern,source in SOURCE_NAME.items():
+        if pattern.match(url):
+            return source
+    return "Unkwown Source"
+
 def scrape_events(URL):
     
     feed=feedparser.parse(URL)
@@ -16,7 +22,7 @@ def scrape_events(URL):
 
         event = {
             "event_id": event_id,
-            "source": SOURCE_NAME,
+            "source": get_source(link),
             "title": title,
             "url": link,
             "published_at": published,

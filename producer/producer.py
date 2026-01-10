@@ -19,7 +19,7 @@ while True:
         events=scrape_events(feed_url)
         for event in events:
             producer.send(KAFKA_TOPIC, key=event["event_id"],value=event)
-            print("Sent event: ",event["event_id"])
+            print("Sent event: ",event["source"]," from link: ",event["url"])
             
         producer.flush()
     time.sleep(SCRAPE_INTERVAL_SEC)
