@@ -27,7 +27,7 @@ Headline: {title}
 Source: {source}
 """
 
-GROQ_API_KEY = "<insert api key>" 
+GROQ_API_KEY = "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" 
 GROQ_API_URL = "https://api.groq.ai/v1/engines/text-generation/completions"
 
 HEADERS = {

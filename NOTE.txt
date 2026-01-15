@@ -1,0 +1,4 @@
+LLMs aint working. 
+tried multiple ones from google to groq. Nothing returns Json output. The others like openAI are paid and Imbroke. 
+After 3 days of testing with various models:
+output: shift from LLMs to deterministic NLP.
