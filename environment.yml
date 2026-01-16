@@ -8,7 +8,4 @@ dependencies:
       - redis
       - lxml
       - feedparser
-      - transformers
-      - torch
-      - torchvision
-      - torchaudio
+      - spacy

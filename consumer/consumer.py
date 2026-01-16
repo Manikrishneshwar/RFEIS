@@ -25,6 +25,5 @@ for msg in consumer:
         consumer.commit()
         continue
 
-    classification=process_event(event)
-    print(classification.json())
+    process_event(event)
     consumer.commit()
